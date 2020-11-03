@@ -1,3 +1,5 @@
+# gitee||gradle使用文档  https://gitee.com/THRAEX/gradle-docs-cn/blob/master/docs/guides
+
 #运行初始化任务 https://docs.gradle.org/current/samples/sample_building_java_applications_multi_project.html
 gradle init  ---> 
     1.选择使用那种类型作为实现语言!

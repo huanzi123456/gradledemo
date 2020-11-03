@@ -1,188 +1,205 @@
+//插件
 plugins {
-    id 'java'
+    id "base"
 }
-
-group 'org.example'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
+//压缩
+task zip(type: Zip, group: "Archive", description: "Archives sources in a zip file") {
+    from "src"
+    setArchiveName "basic-demo-1.0.zip"
 }
-
-task printProps {
-    doLast {
-        println commandLineProjectProp
-        println gradlePropertiesProp
-        println systemProjectProp
-        println System.properties['system']
-    }
+//复制
+task copy(type: Copy, group: "Custom", description: "Copies sources to the dest directory") {
+    from "src"
+    into "dest"
 }
 
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
 
-//定义任务 gradle -q  hello   -q 不会生成 Gradle 的日志信息 (log messages),
-//task hello {
+//plugins {
+//    id 'java'
+//}
+//
+//group 'org.example'
+//version '1.0-SNAPSHOT'
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//task printProps {
 //    doLast {
-//        println 'Hello world!'
+//        println commandLineProjectProp
+//        println gradlePropertiesProp
+//        println systemProjectProp
+//        println System.properties['system']
 //    }
 //}
-
-//<< 在gralde 5.1之后废弃了! 请注意自己得版本
-//task hello {
-//        println 'Hello world!'
+//
+//
+//dependencies {
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
 //}
-
-//task upper {
-//    String someString = 'mY_nAmE'
-//    println "Original: " + someString
-//    println "Upper case: " + someString.toUpperCase()
+//
+////定义任务 gradle -q  hello   -q 不会生成 Gradle 的日志信息 (log messages),
+////task hello {
+////    doLast {
+////        println 'Hello world!'
+////    }
+////}
+//
+////<< 在gralde 5.1之后废弃了! 请注意自己得版本
+////task hello {
+////        println 'Hello world!'
+////}
+//
+////task upper {
+////    String someString = 'mY_nAmE'
+////    println "Original: " + someString
+////    println "Upper case: " + someString.toUpperCase()
+////}
+//
+////groovy语法
+////task count  {
+////    4.times { print "$it " }
+////}
+//
+////>任务依赖
+////task hello {
+////    println 'Hello world!'
+////}
+////task intro(dependsOn: hello) {
+////    println "I'm Gradle"
+////}
+//
+////> lazy dependsOn 任务懒加载
+////task taskX(dependsOn: 'taskY') {
+////    println 'taskX'
+////}
+////task taskY {
+////    println 'taskY'
+////}
+//
+////> 动态创建任务
+////4.times { counter ->
+////    task "task$counter" {
+////        println "I'm task number $counter"
+////    }
+////}
+////task0.dependsOn task2, task3
+//
+//
+////使用已经存在得任务
+////task hello {
+////    println 'Hello Earth'
+////}
+////hello.doFirst {
+////    println 'Hello Venus'
+////}
+////hello.doLast {
+////    println 'Hello Mars'
+////}
+////hello.doLast {
+////    println 'Hello Jupiter'
+////}
+//
+//
+////>短语标记法 获取任务名称
+////task hello {
+////    println 'Hello world!'
+////}
+////hello.doLast {
+////    println "Greetings from the $hello.name task."
+////}
+//
+//
+////>给任务加自定义属性
+////task myTask {
+////    ext.myProperty = "myValue"
+////}
+////task printTaskProperties {
+////    println myTask.myProperty
+////}
+//
+//
+////>使用ant任务
+////task loadfile  {
+////    def files = file('../antLoadfileResources').listFiles().sort()
+////    files.each { File file ->
+////        if (file.isFile()) {
+////            ant.loadfile(srcFile: file, property: file.name)
+////            println " *** $file.name ***"
+////            println "${ant.properties[file.name]}"
+////        }
+////    }
+////}
+//
+//
+////> 方法使用
+////task checksum {
+////    fileList('../antLoadfileResources').each {File file ->
+////        ant.checksum(file: file, property: "cs_$file.name")
+////        println "$file.name Checksum: ${ant.properties["cs_$file.name"]}"
+////    }
+////}
+////task loadfile {
+////    fileList('../antLoadfileResources').each {File file ->
+////        ant.loadfile(srcFile: file, property: file.name)
+////        println "I'm fond of $file.name"
+////    }
+////}
+////File[] fileList(String dir) {
+////    file(dir).listFiles({file -> file.isFile() } as FileFilter).sort()
+////}
+//
+////默认任务
+////defaultTasks 'clean', 'run'
+////task clean << {
+////    println 'Default Cleaning!'
+////}
+////task run {
+////    println 'Default Running!'
+////}
+////task other {
+////    println "I'm not a default task!"
+////}
+//
+////this.getProjects()
+////def getProjects(){
+////    println '---------------'
+////    println 'Root Project'
+////    println '---------------'
+////    this.getAllprojects().eachWithIndex { Project entry, int index ->
+////        if(index == 0){
+////            println "Root project ${entry.name}"
+////        }else {
+////            println "+--- project ${entry.name}"
+////        }
+////    }
+////}
+////this.getSubproject()
+////def getSubproject(){
+////    println '---------------'
+////    println 'Sub Project'
+////    println '---------------'
+////    this.getSubprojects().eachWithIndex { Project entry, int index ->
+////        println "+--- project ${entry.name}"
+////    }
+////}
+//
+//
+//this.getParentPro()
+//def getParentPro(){
+//    this.getParent().each {println it.name}
 //}
-
-//groovy语法
-//task count  {
-//    4.times { print "$it " }
+//this.getRootPro()
+//def getRootPro(){
+//    println "The root is ${this.getRootProject().name}"
 //}
-
-//>任务依赖
-//task hello {
-//    println 'Hello world!'
-//}
-//task intro(dependsOn: hello) {
-//    println "I'm Gradle"
-//}
-
-//> lazy dependsOn 任务懒加载
-//task taskX(dependsOn: 'taskY') {
-//    println 'taskX'
-//}
-//task taskY {
-//    println 'taskY'
-//}
-
-//> 动态创建任务
-//4.times { counter ->
-//    task "task$counter" {
-//        println "I'm task number $counter"
-//    }
-//}
-//task0.dependsOn task2, task3
-
-
-//使用已经存在得任务
-//task hello {
-//    println 'Hello Earth'
-//}
-//hello.doFirst {
-//    println 'Hello Venus'
-//}
-//hello.doLast {
-//    println 'Hello Mars'
-//}
-//hello.doLast {
-//    println 'Hello Jupiter'
-//}
-
-
-//>短语标记法 获取任务名称
-//task hello {
-//    println 'Hello world!'
-//}
-//hello.doLast {
-//    println "Greetings from the $hello.name task."
-//}
-
-
-//>给任务加自定义属性
-//task myTask {
-//    ext.myProperty = "myValue"
-//}
-//task printTaskProperties {
-//    println myTask.myProperty
-//}
-
-
-//>使用ant任务
-//task loadfile  {
-//    def files = file('../antLoadfileResources').listFiles().sort()
-//    files.each { File file ->
-//        if (file.isFile()) {
-//            ant.loadfile(srcFile: file, property: file.name)
-//            println " *** $file.name ***"
-//            println "${ant.properties[file.name]}"
-//        }
-//    }
-//}
-
-
-//> 方法使用
-//task checksum {
-//    fileList('../antLoadfileResources').each {File file ->
-//        ant.checksum(file: file, property: "cs_$file.name")
-//        println "$file.name Checksum: ${ant.properties["cs_$file.name"]}"
-//    }
-//}
-//task loadfile {
-//    fileList('../antLoadfileResources').each {File file ->
-//        ant.loadfile(srcFile: file, property: file.name)
-//        println "I'm fond of $file.name"
-//    }
-//}
-//File[] fileList(String dir) {
-//    file(dir).listFiles({file -> file.isFile() } as FileFilter).sort()
-//}
-
-//默认任务
-//defaultTasks 'clean', 'run'
-//task clean << {
-//    println 'Default Cleaning!'
-//}
-//task run {
-//    println 'Default Running!'
-//}
-//task other {
-//    println "I'm not a default task!"
-//}
-
-//this.getProjects()
-//def getProjects(){
-//    println '---------------'
-//    println 'Root Project'
-//    println '---------------'
-//    this.getAllprojects().eachWithIndex { Project entry, int index ->
-//        if(index == 0){
-//            println "Root project ${entry.name}"
-//        }else {
-//            println "+--- project ${entry.name}"
-//        }
-//    }
-//}
-//this.getSubproject()
-//def getSubproject(){
-//    println '---------------'
-//    println 'Sub Project'
-//    println '---------------'
-//    this.getSubprojects().eachWithIndex { Project entry, int index ->
-//        println "+--- project ${entry.name}"
-//    }
-//}
-
-
-this.getParentPro()
-def getParentPro(){
-    this.getParent().each {println it.name}
-}
-this.getRootPro()
-def getRootPro(){
-    println "The root is ${this.getRootProject().name}"
-}
-
-
-
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//
+//
